@@ -6,6 +6,13 @@ Usage
 -----
 Download this repo and adjust as necessary.
 
+Issues/Roadmap
+-----
+No collision handling on hash tables
+No easy way to change hash table size
+No check for duplicates numbers
+Cannot delete or change listings in phone book
+
 License
 -------
 Uses the 'MIT'_ license
