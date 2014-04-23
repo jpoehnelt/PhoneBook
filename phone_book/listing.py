@@ -15,17 +15,19 @@ class InvalidPhone(Exception):
 class Listing(MutableMapping):
     """
     Phone number class around a mapping with an associated name.
+
+    Listings are sorted by name property.
     """
 
-    def __init__(self, num, name=None):
+    def __init__(self, num, name):
         """
         Two basic checks for valid phone number.
         1. Is it an int or easily converted to one?
         2. Is it a 10 digit number?
-        @num is the phone number in either a string with only numbers or an integer
-        @name is optional
-
         Note: these checks are strict and not entirely practical for all regions.
+
+        :param num: the phone number in either a string with only numbers or an integer
+        :param name: name of listing
         """
         try:
             num = int(num)
