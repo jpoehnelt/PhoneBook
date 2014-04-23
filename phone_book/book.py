@@ -7,10 +7,7 @@ class Book(MutableSequence):
     the phone book for quick searching of phone numbers. Hash table is limited to 100 entries and
     no collision handling is implemented.
 
-    ******
     Phone Book concepts: Unique Numbers, Possibly Duplicate Names
-    (currently does not check for duplicates.)
-    ******
 
     List stays sorted after all changes such as insert or append.
 
@@ -19,9 +16,11 @@ class Book(MutableSequence):
 
     def __init__(self):
         self.data = []
-        self.hash_num = [None for i in range(100)] # hash table of numbers
-        self.hash_name = [None for i in range(100)] # hash table of names
-
+        self.hash_num = None # hash table of numbers
+        self.hash_name = None # hash table of names
+        self._settings = {
+            'HASH_TABLE_LENGTH': 100
+        }
     def __delitem__(self, i):
         """
         Delete method is not implemented per assignment
@@ -71,26 +70,36 @@ class Book(MutableSequence):
 
     def insert(self, i, item):
         """
-        Insert listing into phone book and hash table.
-        Checks that item is of type: Phone
+        Not implemented, instead calling insertion sort after adding listing.
         """
-        # TODO: Check if phone number in book...
-        # TODO: Handle Hash Table Collisions
-        if isinstance(item, Listing):
-            # Insert into list
-            self.data.insert(i, item)
-            # Insert into hash table
-            self.hash_num[hash(item)] = item
-            self.hash_name[hash(item['name'])%100] = item # uses default string hash
-            # Sort list
-            self.sort()
-        else:
-            raise TypeError('Did not pass object of type: Phone')
+        raise NotImplemented("try .add(number, 'name') instead")
 
     def append(self, item):
-        """ Point to insert at end
         """
-        self.insert(len(self.data), item)
+        Not implemented, instead calling insertion sort after adding listing.
+        """
+        raise NotImplemented("try .add(number, 'name') instead")
+
+    def add(self, num, name):
+        """
+        Add listing to phone book and hash tables.
+        Phone book is resorted after new listing is added.
+        """
+        try:
+            l = Listing(num, name, self._settings['HASH_TABLE_LENGTH'])
+        except Exception as e:
+            raise e
+
+        self.data.append(l)
+        try:
+            self.hash_name[0]
+        except TypeError as e:
+            self.hash_num = [None for _ in range(self._settings['HASH_TABLE_LENGTH'])]
+            self.hash_name = [None for _ in range(self._settings['HASH_TABLE_LENGTH'])]
+        finally:
+            self.hash_num[hash(l)] = l
+            self.hash_name[hash(name) % self._settings['HASH_TABLE_LENGTH']] = l # uses default string hash
+        self.sort()
 
     def hash_table(self, type='num'):
         """ Returns the hash table
@@ -106,17 +115,17 @@ class Book(MutableSequence):
     def lookup(self, name, method='binary'):
         """
         Custom method to lookup person in phone book by name and return listing.
-        Defaults to binary lookup, but can use sequential or hash.
+        Defaults to binary lookup, but can use sequential.
         Binary and hash search finds first listing found or False if none.
         Sequential finds all matching and returns as a list if multiple.
         """
         results = []
         if method == 'hash':
             # compute hash of string using default hash function for strings
-            h = hash(name) % 100
+            h = hash(name) % self._settings['HASH_TABLE_LENGTH']
             # is entry in hash table, check if same
             if self.hash_name[h] is not None and self.hash_name[h]['name'] == name:
-                return self.hash_name[hash(name) % 100]
+                return self.hash_name[h]
             else:
                 return False
         elif method == 'binary':
@@ -157,7 +166,7 @@ class Book(MutableSequence):
         :return type: Listing or False
         """
         try:
-            p = Listing(num, None)
+            p = Listing(num, None, self._settings['HASH_TABLE_LENGTH'])
         except InvalidPhone:
             raise InvalidPhone
         if method == 'hash':
@@ -174,3 +183,12 @@ class Book(MutableSequence):
             return False
         else:
             raise ValueError('valid methods: sequential or hash')
+
+    def configure(self, **kwargs):
+        for k, v in kwargs.items():
+            if k in self._settings:
+                self._settings[k]= v
+            else:
+                raise KeyError
+
+        print(self._settings)

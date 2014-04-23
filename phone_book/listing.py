@@ -19,7 +19,7 @@ class Listing(MutableMapping):
     Listings are sorted by name property.
     """
 
-    def __init__(self, num, name):
+    def __init__(self, num, name, hash_length):
         """
         Two basic checks for valid phone number.
         1. Is it an int or easily converted to one?
@@ -41,6 +41,7 @@ class Listing(MutableMapping):
             else:
                 self.data = {'num': num,
                              'name': name}
+                self.hash_length = hash_length
 
     def __getitem__(self, key):
         return self.data[key]
@@ -59,7 +60,8 @@ class Listing(MutableMapping):
 
     def __hash__(self):
         """
-        The hash is based on the mid square method of the phone number.
+        The hash is based on the mid square method of the phone number. Odd length squares are prepended with a 0.
+        The algorithm gets n middle digits depending on size of hash table... 100 gets 00-99 or two digits
         """
         # square it
         h = self.data['num'] * self.data['num']
@@ -68,16 +70,16 @@ class Listing(MutableMapping):
         # if odd number of digits, add leading zero
         if digits % 2 == 1:
             digits += 1
-        # extract middle two digits
-        h = int(h // 10 ** ((digits / 2) - 1)) % 100
+        # how many digits in hash
+        hash_digits = int(math.log10(self.hash_length)) + 1
+        # extract middle digits, if taking an odd number, take from left group
+        h = int(h // 10 ** ((digits / 2) - hash_digits//2)) % self.hash_length
         return h
 
     def __str__(self):
         return self.data.__str__()
 
-    """
-    Rich comparisons are made on key: 'name' since phone book listings are only sorted by name.
-    """
+    # Rich comparisons are made on key: 'name' since phone book listings are only sorted by name.
     def __lt__(self, other):
         if 'name' in other:
             return self.data['name'] < other['name']
