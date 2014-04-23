@@ -7,7 +7,10 @@ class Book(MutableSequence):
     the phone book for quick searching of phone numbers. Hash table is limited to 100 entries and
     no collision handling is implemented.
 
+    ******
     Phone Book concepts: Unique Numbers, Possibly Duplicate Names
+    (currently does not check for duplicates.)
+    ******
 
     List stays sorted after all changes such as insert or append.
 
@@ -68,7 +71,7 @@ class Book(MutableSequence):
 
     def insert(self, i, item):
         """
-        Insert phone into phone book and hash table.
+        Insert listing into phone book and hash table.
         Checks that item is of type: Phone
         """
         # TODO: Check if phone number in book...
@@ -103,7 +106,7 @@ class Book(MutableSequence):
     def lookup(self, name, method='binary'):
         """
         Custom method to lookup person in phone book by name and return listing.
-        Defaults to binary lookup, but can use sequential.
+        Defaults to binary lookup, but can use sequential or hash.
         Binary and hash search finds first listing found or False if none.
         Sequential finds all matching and returns as a list if multiple.
         """
