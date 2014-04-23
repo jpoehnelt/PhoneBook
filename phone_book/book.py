@@ -103,7 +103,7 @@ class Book(MutableSequence):
     def lookup(self, name, method='binary'):
         """
         Custom method to lookup person in phone book by name and return listing.
-        Defaults to binary lookup, but can use sequential.
+        Defaults to binary lookup, but can use sequential or hash.
         Binary and hash search finds first listing found or False if none.
         Sequential finds all matching and returns as a list if multiple.
         """
