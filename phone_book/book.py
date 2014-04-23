@@ -68,7 +68,7 @@ class Book(MutableSequence):
 
     def insert(self, i, item):
         """
-        Insert phone into phone book and hash table.
+        Insert listing into phone book and hash table.
         Checks that item is of type: Phone
         """
         # TODO: Check if phone number in book...
