@@ -7,7 +7,10 @@ class Book(MutableSequence):
     the phone book for quick searching of phone numbers. Hash table is limited to 100 entries and
     no collision handling is implemented.
 
+    ******
     Phone Book concepts: Unique Numbers, Possibly Duplicate Names
+    (currently does not check for duplicates.)
+    ******
 
     List stays sorted after all changes such as insert or append.
 
