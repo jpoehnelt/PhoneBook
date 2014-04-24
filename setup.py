@@ -9,5 +9,6 @@ setup(
     platforms='any',
     packages=['phone_book'],
     version='0.1.0-dev',
-    zip_safe=False
+    zip_safe=False,
+    test_suite='tests'
 )
