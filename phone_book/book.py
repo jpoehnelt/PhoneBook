@@ -186,9 +186,10 @@ class Book(MutableSequence):
 
     def configure(self, **kwargs):
         for k, v in kwargs.items():
-            if k in self._settings:
+            if k in self._settings: # key is in settings
+                if k == 'HASH_TABLE_LENGTH' and self.hash_num is not None:
+                    raise Exception('Hash table already created.')
                 self._settings[k]= v
             else:
                 raise KeyError
 
-        print(self._settings)
