@@ -1,4 +1,5 @@
-[![Build Status](https://travis-ci.org/justinwp/PhoneBook.svg?branch=master)](https://travis-ci.org/justinwp/PhoneBook)
+.. image:: https://travis-ci.org/justinwp/PhoneBook.svg?branch=master   :target: https://travis-ci.org/justinwp/PhoneBook
+
 Phone Book
 ==========
 The creation of a simple phone book for a class assignment at Northern Arizona University.
