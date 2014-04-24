@@ -1,4 +1,5 @@
-.. image:: https://travis-ci.org/justinwp/PhoneBook.svg?branch=master   :target: https://travis-ci.org/justinwp/PhoneBook
+.. image:: https://travis-ci.org/justinwp/PhoneBook.svg?branch=master
+   :target: https://travis-ci.org/justinwp/PhoneBook
 
 Phone Book
 ==========
