@@ -4,4 +4,5 @@ python:
   - "2.7"
   - "3.2"
   - "3.3"
-script: python setup.py test
+install: pip install .
+script: python ./tests/__init__.py
