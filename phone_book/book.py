@@ -193,3 +193,5 @@ class Book(MutableSequence):
             else:
                 raise KeyError
 
+    def settings(self):
+        return self._settings
