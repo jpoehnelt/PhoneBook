@@ -18,6 +18,6 @@ Cannot delete or change listings in phone book
 
 License
 -------
-Uses the 'MIT'_ license
+Uses the MIT_ license
 
 .. _MIT: http://opensource.org/licenses/MIT
