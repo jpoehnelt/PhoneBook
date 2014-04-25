@@ -29,13 +29,14 @@ class Book(MutableSequence):
         # self.hash_num[hash(self.data[i])] = None
         # # Delete from list
         # self.data.__delitem__(i)
-        pass
+        raise NotImplemented
 
     def __setitem__(self, i, item):
         """
         Set method is not implemented per assignment
         """
-        pass
+        raise NotImplemented
+
 
     def __getitem__(self, item):
         return self.data.__getitem__(item)
