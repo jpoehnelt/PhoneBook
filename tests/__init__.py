@@ -36,7 +36,22 @@ class TestBook(unittest.TestCase):
         self.assertEqual(self.bk.settings()['HASH_TABLE_LENGTH'], 10)
         self.bk.add(9287749170, 'Test')
         self.assertEqual(len(self.bk.hash_table('num')), 10)
+        # should raise error if hash table already instantiated
+        self.assertRaises(Exception, self.bk.configure, HASH_TABLE_LENGTH=1000)
 
+    def test_reverse_lookup(self):
+        self.bk.add(9287749178, 'Flagstaff Soap Company LLC')
+        self.assertTrue(self.bk.reverse_lookup(9287749178, method='sequential'))
+        self.assertTrue(self.bk.reverse_lookup(9287749178, method='hash'))
+
+    def test_lookup(self):
+        self.bk.configure(HASH_TABLE_LENGTH=1000)  # try to avoid collisions
+        self.bk.add(9287749178, 'Flagstaff Soap Company LLC')
+        self.bk.add(9287749170, 'Test')
+        self.bk.add(9287749171, 'Another Test')
+        self.assertTrue(self.bk.lookup('Test', method='sequential'))
+        self.assertTrue(self.bk.lookup('Test', method='binary'))
+        self.assertTrue(self.bk.lookup('Test', method='hash'))
 
 if __name__ == '__main__':
     unittest.main()
