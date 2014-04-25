@@ -191,7 +191,7 @@ class Book(MutableSequence):
                     raise Exception('Hash table already created.')
                 self._settings[k]= v
             else:
-                raise KeyError
+                raise Exception
 
     def settings(self):
         return self._settings
