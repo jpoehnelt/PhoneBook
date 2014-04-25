@@ -30,27 +30,8 @@ print('*' * 5 + 'End Lookup ' + '*' * 34)
 print('\n' + '*' * 50)
 print('Reverse Lookup (Search by Number)')
 print('*' * 50)
-print('Method: {0}\n Search: {1}\n Result: {2}\n'.format('sequential', '6145029096',
-                                                         bk.reverse_lookup('6145029096', method='sequential')))
-print('Method: {0}\n Search: {1}\n Result: {2}\n'.format('hash', 6145029096,
-                                                         bk.reverse_lookup(6145029096, method='hash')))
+print('Method: {0}\n Search: {1}\n Result: {2}\n'.format('sequential', '9287749178',
+                                                         bk.reverse_lookup('9287749178', method='sequential')))
+print('Method: {0}\n Search: {1}\n Result: {2}\n'.format('hash', 9287749178,
+                                                         bk.reverse_lookup(9287749178, method='hash')))
 print('*' * 5 + 'End Reverse Lookup ' + '*' * 26)
-
-print(len(bk.hash_table(type='name')))
-
-# # Print Hash Tables Out
-# print('\n' + '*' * 50)
-# print('Hash Table of Names:')
-# print('*' * 50)
-# for listing in bk.hash_table(type='name'):
-#     if listing is not None:
-#         print(hash(listing))
-# print('*' * 5 + 'End Hash Table ' + '*' * 40)
-#
-# print('\n' + '*' * 50)
-# print('Hash Table of Numbers:')
-# print('*' * 50)
-# for listing in bk.hash_table(type='num'):
-#     if listing is not None:
-#         print('hash: {0} squared: {1} number: {2}'.format(hash(listing), int(listing['num']*listing['num']), listing['num']))
-# print('*' * 5 + 'End Hash Table ' + '*' * 40)
