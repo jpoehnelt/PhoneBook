@@ -12,9 +12,9 @@ class InvalidPhone(Exception):
     pass
 
 
-class Listing(MutableMapping):
+class Listing():
     """
-    Phone number class around a mapping with an associated name.
+    Phone number class with an associated name.
 
     Listings are sorted by name property.
     """
