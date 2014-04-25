@@ -1,5 +1,5 @@
 import unittest
-from phone_book import Listing, Book
+from phone_book import Listing, Book, InvalidPhone
 
 
 class TestListing(unittest.TestCase):
@@ -23,6 +23,11 @@ class TestBook(unittest.TestCase):
         self.bk.add(9287749171, 'Another Test')
         self.assertEqual(len(self.bk), 3)
 
+    def test_add_invalid(self):
+        self.assertRaises(InvalidPhone, self.bk.add, 1, 'Test')
+        self.assertRaises(InvalidPhone, self.bk.add, '928774917A', 'Test')
+        self.assertRaises(InvalidPhone, self.bk.add, 19287749178, 'Test')
+
     def test_sorts_on_add(self):
         self.bk.add(9287749178, 'Flagstaff Soap Company LLC')
         self.bk.add(9287749170, 'Test')
@@ -30,6 +35,7 @@ class TestBook(unittest.TestCase):
         self.assertEqual(self.bk[0]['num'], 9287749171)
         self.assertEqual(self.bk[1]['num'], 9287749178)
         self.assertEqual(self.bk[2]['num'], 9287749170)
+        self.assertEqual(self.bk[0], sorted(self.bk)[0])
 
     def test_settings(self):
         self.bk.configure(HASH_TABLE_LENGTH=10)
