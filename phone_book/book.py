@@ -39,9 +39,15 @@ class Book(MutableSequence):
 
 
     def __getitem__(self, item):
+        """
+        Returns dictionary representation of Listing Object
+        """
         return self.data.__getitem__(item).__dict__
 
     def __len__(self):
+        """
+        Returns Length of PhoneBook List
+        """
         return self.data.__len__()
 
     def __sort__(self):
