@@ -1,0 +1,514 @@
+Justin Poehnelt
+CS136
+Assignment 5
+Viewable at https://github.com/justinwp/PhoneBook
+
+**************************************************
+Usage of Phonebook
+**************************************************
+def setup():
+    # create the phone book
+    global bk
+    bk = Book()
+    bk.configure(HASH_TABLE_LENGTH=100)
+
+    # create some listings
+    bk.add(9287749178, 'Justin')
+    bk.add(9288531234, 'Tim')
+    bk.add(9288531216, 'John')
+    bk.add(9281531212, 'Mary')
+    bk.add(1234567890, 'Zach')
+    bk.add(1231567890, 'Bob')
+    bk.add('9280001111', 'Megan')  # can enter as a string
+    bk.add('9281110000', 'Sarah')
+
+def output():
+    print('Justin Poehnelt')
+    print('CS136')
+    print('Assignment 5')
+    print('Viewable at https://github.com/justinwp/PhoneBook')
+
+    print('\n' + '*' * 50)
+    print('Usage of Phonebook')
+    print('*' * 50)
+    print(inspect.getsource(setup))
+    print(inspect.getsource(output))
+    print('*' * 5 + 'End Usage ' + '*' * 26)
+
+    print('\n' + '!' * 50)
+    print('Start of Output')
+    print('!' * 50)
+
+    # Lookup name and get listing
+    print('\n' + '*' * 50)
+    print('Lookup (Search by Name)')
+    print('*' * 50)
+    print('Method: {0}\n Search: {1}\n Result: {2}\n'.format('sequential', 'Justin',
+                                                             bk.lookup('Justin', method='sequential')))
+    print('Method: {0}\n Search: {1}\n Result: {2}\n'.format('hash', 'Justin', bk.lookup('Justin', method='hash')))
+    print('Method: {0}\n Search: {1}\n Result: {2}\n'.format('binary', 'Justin', bk.lookup('Justin', method='binary')))
+    print('*' * 5 + 'End Lookup ' + '*' * 34)
+
+    # Reverse lookup and get name
+    print('\n' + '*' * 50)
+    print('Reverse Lookup (Search by Number)')
+    print('*' * 50)
+    print('Method: {0}\n Search: {1}\n Result: {2}\n'.format('sequential', '9287749178',
+                                                             bk.reverse_lookup('9287749178', method='sequential')))
+    print('Method: {0}\n Search: {1}\n Result: {2}\n'.format('hash', 9287749178,
+                                                             bk.reverse_lookup(9287749178, method='hash')))
+    print('*' * 5 + 'End Reverse Lookup ' + '*' * 26)
+
+    print('\n' + '!' * 50)
+    print('And the custom classes...')
+    print('!' * 50)
+
+    print('\n' + '*' * 50)
+    print('Book Class')
+    print('*' * 50)
+    print(inspect.getsource(Book))
+    print('*' * 5 + 'End Book Class ' + '*' * 26)
+
+    print('\n' + '*' * 50)
+    print('Listing Class')
+    print('*' * 50)
+    print(inspect.getsource(Listing))
+    print('*' * 5 + 'End Listing Class ' + '*' * 26)
+
+    print('\n' + '!' * 50)
+    print('And some testing...')
+    print('!' * 50)
+
+    print('\n' + '*' * 50)
+    print('Unittests')
+    print('*' * 50)
+    print(inspect.getsource(tests))
+    print('*' * 5 + 'End Test Section ' + '*' * 26)
+
+*****End Usage **************************
+
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+Start of Output
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+**************************************************
+Lookup (Search by Name)
+**************************************************
+Method: sequential
+ Search: Justin
+ Result: {'num': 9287749178, 'name': 'Justin'}
+
+Method: hash
+ Search: Justin
+ Result: {'num': 9287749178, 'name': 'Justin'}
+
+Method: binary
+ Search: Justin
+ Result: {'num': 9287749178, 'name': 'Justin'}
+
+*****End Lookup **********************************
+
+**************************************************
+Reverse Lookup (Search by Number)
+**************************************************
+Method: sequential
+ Search: 9287749178
+ Result: {'num': 9287749178, 'name': 'Justin'}
+
+Method: hash
+ Search: 9287749178
+ Result: {'num': 9287749178, 'name': 'Justin'}
+
+*****End Reverse Lookup **************************
+
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+And the custom classes...
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+**************************************************
+Book Class
+**************************************************
+class Book(MutableSequence):
+    """ Extension of mutable sequence(list) as a phone book. Creates a hash table alongside
+    the phone book for quick searching of phone numbers. Hash table is limited to 100 entries and
+    no collision handling is implemented.
+
+    Phone Book concepts: Unique Numbers, Possibly Duplicate Names
+
+    List stays sorted after all changes such as insert or append.
+
+    __delitem, __setitem__ are not implemented
+    """
+
+    def __init__(self):
+        self.data = []
+        self.hash_num = None # hash table of numbers
+        self.hash_name = None # hash table of names
+        self._settings = {
+            'HASH_TABLE_LENGTH': 100
+        }
+    def __delitem__(self, i):
+        """
+        Delete method is not implemented per assignment
+        """
+        # # Delete from hash table
+        # self.hash_num[hash(self.data[i])] = None
+        # # Delete from list
+        # self.data.__delitem__(i)
+        raise NotImplemented
+
+    def __setitem__(self, i, item):
+        """
+        Set method is not implemented per assignment
+        """
+        raise NotImplemented
+
+
+    def __getitem__(self, item):
+        """
+        Returns dictionary representation of Listing Object
+        """
+        return self.data.__getitem__(item)
+
+    def __len__(self):
+        """
+        Returns Length of PhoneBook List
+        """
+        return self.data.__len__()
+
+    def __sort__(self):
+        """
+        Implementation of insertion sort.
+        """
+        for i in range(1, len(self.data)):
+            value = self.data[i]
+            pos = i
+            while pos > 0 and self.data[pos - 1] > value:
+                self.data[pos] = self.data[pos - 1]
+                pos -= 1
+            self.data[pos] = value
+        return self
+
+    def sort(self):
+        """
+        Implementation of insertion sort.
+        """
+        for i in range(1, len(self.data)):
+            value = self.data[i]
+            pos = i
+            while pos > 0 and self.data[pos - 1] > value:
+                self.data[pos] = self.data[pos - 1]
+                pos -= 1
+            self.data[pos] = value
+
+    def insert(self, i, item):
+        """
+        Not implemented, instead calling insertion sort after adding listing.
+        """
+        raise NotImplemented("try .add(number, 'name') instead")
+
+    def append(self, item):
+        """
+        Not implemented, instead calling insertion sort after adding listing.
+        """
+        raise NotImplemented("try .add(number, 'name') instead")
+
+    def add(self, num, name):
+        """
+        Add listing to phone book and hash tables.
+        Phone book is resorted after new listing is added.
+        """
+        try:
+            l = Listing(num, name, self._settings['HASH_TABLE_LENGTH'])
+        except Exception as e:
+            raise e
+
+        self.data.append(l)
+        try:
+            self.hash_name[0]
+        except TypeError as e:
+            self.hash_num = [None for _ in range(self._settings['HASH_TABLE_LENGTH'])]
+            self.hash_name = [None for _ in range(self._settings['HASH_TABLE_LENGTH'])]
+        finally:
+            self.hash_num[hash(l)] = l
+            self.hash_name[hash(name) % self._settings['HASH_TABLE_LENGTH']] = l # uses default string hash
+        self.sort()
+
+    def hash_table(self, type='num'):
+        """ Returns the hash table
+        :param type: num or name
+        """
+        if type == 'num':
+            return self.hash_num
+        elif type == 'name':
+            return self.hash_name
+        else:
+            raise ValueError
+
+    def lookup(self, name, method='binary'):
+        """
+        Custom method to lookup person in phone book by name and return listing.
+        Defaults to binary lookup, but can use sequential.
+        Binary and hash search finds first listing found or False if none.
+        Sequential finds all matching and returns as a list if multiple.
+        """
+        results = []
+        if method == 'hash':
+            # compute hash of string using default hash function for strings
+            h = hash(name) % self._settings['HASH_TABLE_LENGTH']
+            # is entry in hash table, check if same
+            if self.hash_name[h] is not None and self.hash_name[h]['name'] == name:
+                return self.hash_name[h]
+            else:
+                return False
+        elif method == 'binary':
+            #Binary search returns first listing found.
+            low = 0
+            hi = len(self.data) - 1
+            while low <= hi:
+                m = (low + hi) // 2
+                if self.data[m]['name'] == name:
+                    return self.data[m]
+                elif name < self.data[m]['name']:
+                    hi = m - 1
+                elif name > self.data[m]['name']:
+                    low = m + 1
+            return False
+
+        elif method == 'sequential':
+            # Sequential search finds all matching names
+            for listing in self.data:
+                if listing['name'] == name:
+                    results.append(listing)
+            # Return Result(s) of Search
+            if len(results) == 1:
+                return results[0]
+            elif len(results) > 1:
+                return results
+            else:
+                return False
+        else:
+            raise ValueError('valid methods: sequential or binary')
+
+    def reverse_lookup(self, num, method='hash'):
+        """
+        Method for reverse lookup by phone number. First checks that num is actually a valid phone number.
+        Default uses hash table for quick lookup and returns the listing if it exists or False if it does not.
+        May use sequential search method.
+        :param method: 'hash' or 'sequential'
+        :return type: Listing or False
+        """
+        try:
+            p = Listing(num, None, self._settings['HASH_TABLE_LENGTH'])
+        except InvalidPhone:
+            raise InvalidPhone
+        if method == 'hash':
+            h = hash(p)
+            if self.hash_num[h] is not None:
+                return self.hash_num[h]
+            else:
+                return False
+        elif method == 'sequential':
+            # sequential
+            for listing in self.data:
+                if listing['num'] == p['num']:
+                    return listing
+            return False
+        else:
+            raise ValueError('valid methods: sequential or hash')
+
+    def configure(self, **kwargs):
+        for k, v in kwargs.items():
+            if k in self._settings: # key is in settings
+                if k == 'HASH_TABLE_LENGTH' and self.hash_num is not None:
+                    raise Exception('Hash table already created.')
+                self._settings[k]= v
+            else:
+                raise Exception
+
+    def settings(self):
+        return self._settings
+
+*****End Book Class **************************
+
+**************************************************
+Listing Class
+**************************************************
+class Listing():
+    """
+    Phone number class with an associated name.
+
+    Listings are sorted by name property.
+    """
+
+    def __init__(self, num, name, hash_length):
+        """
+        Two basic checks for valid phone number.
+        1. Is it an int or easily converted to one?
+        2. Is it a 10 digit number?
+        Note: these checks are strict and not entirely practical for all regions.
+
+        :param num: the phone number in either a string with only numbers or an integer
+        :param name: name of listing
+        """
+        try:
+            num = int(num)
+        except ValueError:
+            raise InvalidPhone('invalid characters')
+        else:
+            if num < 1000000000:
+                raise InvalidPhone('too few digits')
+            elif num > 9999999999:
+                raise InvalidPhone('too many digits')
+            else:
+                self.data = {'num': num,
+                             'name': name}
+                self.hash_length = hash_length
+
+    def __getitem__(self, key):
+        return self.data[key]
+
+    def __setitem__(self, key, value):
+        self.data[key] = value
+
+    def __delitem__(self, key):
+        del self.data[key]
+
+    def __iter__(self):
+        return iter(self.data)
+
+    def __len__(self):
+        return len(self.data)
+
+    def __hash__(self):
+        """
+        The hash is based on the mid square method of the phone number. Odd length squares are prepended with a 0.
+        The algorithm gets n middle digits depending on size of hash table... 100 gets 00-99 or two digits
+        """
+        # square it
+        h = self.data['num'] * self.data['num']
+        # get number of digits
+        digits = int(math.log10(h)) + 1
+        # if odd number of digits, add leading zero
+        if digits % 2 == 1:
+            digits += 1
+        # how many digits in hash
+        hash_digits = int(math.log10(self.hash_length)) + 1
+        # extract middle digits, if taking an odd number, take from left group
+        h = int(h // 10 ** ((digits / 2) - hash_digits//2)) % self.hash_length
+        return h
+
+    def __str__(self):
+        return self.data.__str__()
+
+    # Rich comparisons are made on key: 'name' since phone book listings are only sorted by name.
+    def __lt__(self, other):
+        if 'name' in other:
+            return self.data['name'] < other['name']
+        else:
+            raise TypeError('unorderable types')
+
+    def __le__(self, other):
+        if 'name' in other:
+            return self.data['name'] <= other['name']
+        else:
+            raise TypeError('unorderable types')
+
+    def __eq__(self, other):
+        if 'name' in other:
+            return self.data['name'] == other['name']
+        else:
+            raise TypeError('unorderable types')
+
+    def __ge__(self, other):
+        if 'name' in other:
+            return self.data['name'] >= other['name']
+        else:
+            raise TypeError('unorderable types')
+
+    def __gt__(self, other):
+        if 'name' in other:
+            return self.data['name'] > other['name']
+        else:
+            raise TypeError('unorderable types')
+
+    def __ne__(self, other):
+        if 'name' in other:
+            return self.data['name'] != other['name']
+        else:
+            raise TypeError('unorderable types')
+
+*****End Listing Class **************************
+
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+And some testing...
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+**************************************************
+Unittests
+**************************************************
+import unittest
+from phone_book import Listing, Book, InvalidPhone
+
+
+class TestListing(unittest.TestCase):
+    def test_hash(self):
+        hash_length = 100
+        p1 = Listing(9287749178, 'Test', hash_length)
+        self.assertEqual(hash(p1), 93)
+
+
+class TestBook(unittest.TestCase):
+    def setUp(self):
+        self.bk = Book()
+
+    def tearDown(self):
+        pass
+
+    def test_add(self):
+        self.bk.add(9287749178, 'Flagstaff Soap Company LLC')
+        self.assertEqual(len(self.bk), 1)
+        self.bk.add(9287749170, 'Test')
+        self.bk.add(9287749171, 'Another Test')
+        self.assertEqual(len(self.bk), 3)
+
+    def test_add_invalid(self):
+        self.assertRaises(InvalidPhone, self.bk.add, 1, 'Test')
+        self.assertRaises(InvalidPhone, self.bk.add, '928774917A', 'Test')
+        self.assertRaises(InvalidPhone, self.bk.add, 19287749178, 'Test')
+
+    def test_sorts_on_add(self):
+        self.bk.add(9287749178, 'Flagstaff Soap Company LLC')
+        self.bk.add(9287749170, 'Test')
+        self.bk.add(9287749171, 'Another Test')
+        self.assertEqual(self.bk[0]['num'], 9287749171)
+        self.assertEqual(self.bk[1]['num'], 9287749178)
+        self.assertEqual(self.bk[2]['num'], 9287749170)
+        self.assertEqual(self.bk[0], sorted(self.bk)[0])
+
+    def test_settings(self):
+        self.bk.configure(HASH_TABLE_LENGTH=10)
+        self.assertEqual(self.bk.settings()['HASH_TABLE_LENGTH'], 10)
+        self.bk.add(9287749170, 'Test')
+        self.assertEqual(len(self.bk.hash_table('num')), 10)
+        # should raise error if hash table already instantiated
+        self.assertRaises(Exception, self.bk.configure, HASH_TABLE_LENGTH=1000)
+
+    def test_reverse_lookup(self):
+        self.bk.add(9287749178, 'Flagstaff Soap Company LLC')
+        self.assertTrue(self.bk.reverse_lookup(9287749178, method='sequential'))
+        self.assertTrue(self.bk.reverse_lookup(9287749178, method='hash'))
+
+    def test_lookup(self):
+        self.bk.configure(HASH_TABLE_LENGTH=1000)  # try to avoid collisions
+        self.bk.add(9287749178, 'Flagstaff Soap Company LLC')
+        self.bk.add(9287749170, 'Test')
+        self.bk.add(9287749171, 'Another Test')
+        self.assertTrue(self.bk.lookup('Test', method='sequential'))
+        self.assertTrue(self.bk.lookup('Test', method='binary'))
+        self.assertTrue(self.bk.lookup('Test', method='hash'))
+
+if __name__ == '__main__':
+    unittest.main()
+
+*****End Test Section **************************
