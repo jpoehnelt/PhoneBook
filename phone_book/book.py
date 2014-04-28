@@ -39,7 +39,7 @@ class Book(MutableSequence):
 
 
     def __getitem__(self, item):
-        return self.data.__getitem__(item)
+        return self.data.__getitem__(item).__dict__
 
     def __len__(self):
         return self.data.__len__()
