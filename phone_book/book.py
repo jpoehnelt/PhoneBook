@@ -42,7 +42,7 @@ class Book(MutableSequence):
         """
         Returns dictionary representation of Listing Object
         """
-        return self.data.__getitem__(item).__dict__
+        return self.data.__getitem__(item)
 
     def __len__(self):
         """
